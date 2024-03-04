@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MassBio Assignment - Data Query</title>
+</head>
+<body>
+    <h1>MassBio Assignment - Data Query</h1>
+    <form id="query-form">
+        <label for="filters">Filters:</label>
+        <input type="text" id="filters" name="filters" placeholder="Enter filters JSON...">
+        <br>
+        <label for="ordering">Ordering:</label>
+        <input type="text" id="ordering" name="ordering" placeholder="Enter ordering JSON...">
+        <br>
+        <button type="submit">Submit Query</button>
+    </form>
+
+    <div id="results">
+        <!-- Query results will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('query-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get form data
+            const filters = document.getElementById('filters').value;
+            const ordering = document.getElementById('ordering').value;
+
+            // Convert string to JSON
+            const formData = {
+                filters: filters ? JSON.parse(filters) : {},
+                ordering: ordering ? JSON.parse(ordering) : []
+            };
+
+            // Send POST request to API endpoint
+            fetch('/assignment/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display results
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '<h2>Results:</h2>';
+                data.results.forEach(result => {
+                    // Create a paragraph element for each result
+                    const paragraph = document.createElement('p');
+                    // Convert the result object to a JSON string and add it to the paragraph
+                    paragraph.textContent = JSON.stringify(result);
+                    // Append the paragraph to the results div
+                    resultsDiv.appendChild(paragraph);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
