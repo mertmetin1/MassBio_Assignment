@@ -1,13 +1,8 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, render_template, request, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
-
-# Web-API İnterface
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 def create_connection():
     try:
@@ -22,7 +17,13 @@ def create_connection():
         print("Veritabanı bağlantı hatası:", e)
         return None
 
-# API Endpoint
+# Web interface
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+#API Endpoint
 @app.route('/assignment/query', methods=['POST'])
 def query_data():
     conn = create_connection()
