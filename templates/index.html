@@ -7,6 +7,11 @@
 </head>
 <body>
     <h1>MassBio Assignment - Data Query</h1>
+
+    <p>Use the form below to submit a query to the API endpoint. Enter filters and ordering as JSON objects. For example;</p>
+        <p> Filters: {"main_symbol": "NALCN"}</p>
+    <p>Ordering:[{"main_af_vcf": "DESC"}, {"main_dp": "ASC"}]</p>
+    <p>Leave the fields empty to get all results.</p>
     <form id="query-form">
         <label for="filters">Filters:</label>
         <input type="text" id="filters" name="filters" placeholder="Enter filters JSON...">
